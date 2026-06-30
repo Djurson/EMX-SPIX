@@ -38,6 +38,9 @@ export interface SpreadsheetStats {
 export function BuildFileMetaData(file: SelectedSpreadsheet): string {
   const parts = [`${fileExt(file.name)} · ${formatSize(file.size)}`];
   parts.push(`${file.totalRows.toLocaleString()} ${file.totalRows === 1 ? "row" : "rows"}`);
+  if (file.isExcel && file.numberOfSheets > 0) {
+    parts.push(`${file.numberOfSheets} ${file.numberOfSheets === 1 ? "sheet" : "sheets"}`);
+  }
   if (file.isExcel && file.totalExcelTables > 0) {
     parts.push(`${file.totalExcelTables} ${file.totalExcelTables === 1 ? "table" : "tables"}`);
   }

@@ -1,6 +1,6 @@
-# EMX PIBR — Product Image Batcher & Renamer
+# EMX SPIX — Supplier Products Importer & Exporter
 
-Internal desktop tool for EMX Racing. Ingests a supplier spreadsheet (`.xlsx` / `.csv`), maps columns to EMX fields, downloads product images, renames them to EMX item numbers, and exports a clean spreadsheet alongside the renamed image folder.
+Internal desktop tool for EMX Racing. Ingests a supplier spreadsheet (`.xlsx` / `.csv`), maps columns to EMX fields, downloads product images, renames them to EMX item numbers, and exports Pyramid-ready import files.
 
 Built with [Wails v2](https://wails.io/) — Go backend, React/TypeScript frontend, shipped as a single native binary.
 

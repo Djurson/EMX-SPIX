@@ -1,14 +1,13 @@
 /**
  * Stable identifiers for the EMX output fields a source column can map to.
- * Mirrors the export schema described in the project README.
  */
-export type FieldKey = "emxItemNumber" | "manufacturerItemNumber" | "description" | "image" | "bike";
+export type FieldKey = "articleNumber" | "description" | "images" | "manuals";
 
 /** Definition of a single mappable EMX output field. */
 export interface FieldDef {
   /** Stable identifier used as the mapping record key. */
   key: FieldKey;
-  /** Human-readable label shown in the UI. */
+  /** Human-readable label shown in the config drawer. */
   label: string;
   /** Whether a source column must be assigned before continuing. */
   required: boolean;
@@ -22,17 +21,14 @@ export interface FieldDef {
  */
 export type ColumnMapping = Record<FieldKey, string | null>;
 
-/**
- * The EMX output fields, in display order. `bike` is optional per the README
- * (fitment lookup is a best-effort feature).
- */
+/** The EMX output fields, in display order. */
 export const EMX_FIELDS: FieldDef[] = [
-  { key: "manufacturerItemNumber", label: "Manufacturer item number", required: true, keywords: ["manufacturer", "mfr", "supplier", "item number", "item no", "art", "sku", "part"] },
-  { key: "description", label: "Product description", required: true, keywords: ["description", "desc", "name", "title", "product"] },
-  { key: "image", label: "Image", required: true, keywords: ["image", "img", "photo", "picture", "url", "link"] },
+  { key: "articleNumber", label: "Article Number", required: true, keywords: ["manufacturer", "mfr", "supplier", "item number", "item no", "art", "sku", "part"] },
+  { key: "description", label: "Product Description", required: false, keywords: ["description", "desc", "name", "title", "product"] },
+  { key: "images", label: "Product Images", required: false, keywords: ["image", "img", "photo", "picture", "url", "link"] },
+  { key: "manuals", label: "Product Manuals", required: false, keywords: ["manual", "instruction", "guide"] },
 ];
 
-/** Normalizes a header for keyword matching: lowercase, trimmed. */
 function normalize(header: string): string {
   return header.trim().toLowerCase();
 }

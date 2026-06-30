@@ -5,3 +5,7 @@
 export function OpenSpreadsheet() {
   return window['go']['main']['App']['OpenSpreadsheet']();
 }
+
+export function OpenSpreadsheetFromPath(arg1) {
+  return window['go']['main']['App']['OpenSpreadsheetFromPath'](arg1);
+}

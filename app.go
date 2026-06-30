@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"pibr/parser"
+	"strings"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -41,6 +42,48 @@ type SpreadsheetInfo struct {
 
 	// Headers holds the first-row cell values, used for column mapping.
 	Headers []string `json:"headers"`
+}
+
+// OpenSpreadsheetFromPath parses the spreadsheet at the given absolute path and
+// returns its metadata. Used by the drag-and-drop handler, which already has
+// the path from the Wails OnFileDrop callback.
+func (a *App) OpenSpreadsheetFromPath(path string) (*SpreadsheetInfo, error) {
+	if path == "" {
+		return nil, nil
+	}
+
+	ext := strings.ToLower(filepath.Ext(path))
+	if ext != ".xlsx" && ext != ".xls" && ext != ".csv" {
+		return nil, nil // silently ignore non-spreadsheet drops
+	}
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		return nil, err
+	}
+
+	filename := filepath.Base(path)
+
+	stats, err := parser.GetStats(path, filename)
+	if err != nil {
+		return nil, err
+	}
+
+	headers, err := parser.GetHeaders(path, filename)
+	if err != nil {
+		return nil, err
+	}
+
+	return &SpreadsheetInfo{
+		Path:             path,
+		Filename:         filename,
+		Size:             fi.Size(),
+		TotalRows:        stats.TotalRows,
+		IsExcel:          stats.IsExcel,
+		NumberOfSheets:   stats.NumberOfSheets,
+		TotalExcelTables: stats.TotalExcelTables,
+		Headers:          headers,
+	}, nil
 }
 
 // OpenSpreadsheet opens the OS file picker filtered to spreadsheet formats

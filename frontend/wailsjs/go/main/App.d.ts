@@ -3,3 +3,5 @@
 import {main} from '../models';
 
 export function OpenSpreadsheet():Promise<main.SpreadsheetInfo>;
+
+export function OpenSpreadsheetFromPath(arg1:string):Promise<main.SpreadsheetInfo>;
